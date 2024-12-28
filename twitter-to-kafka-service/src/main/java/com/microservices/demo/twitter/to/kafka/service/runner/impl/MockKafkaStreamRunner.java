@@ -27,6 +27,7 @@ public class MockKafkaStreamRunner implements StreamRunner {
     private static final Logger LOG = LoggerFactory.getLogger(MockKafkaStreamRunner.class);
 
     private final TwitterToKafkaServiceConfigData twitterToKafkaServiceConfigData;
+
     private final TwitterKafkaStatusListener twitterKafkaStatusListener;
 
     private static final Random RANDOM = new Random();
@@ -72,7 +73,7 @@ public class MockKafkaStreamRunner implements StreamRunner {
     }
 
     @Override
-    public void start() {
+    public void start() throws TwitterException {
         final String[] keywords = twitterToKafkaServiceConfigData.getTwitterKeywords().toArray(new String[0]);
         final int minTweetLength = twitterToKafkaServiceConfigData.getMockMinTweetLength();
         final int maxTweetLength = twitterToKafkaServiceConfigData.getMockMaxTweetLength();
