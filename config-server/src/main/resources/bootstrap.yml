@@ -6,3 +6,7 @@ spring:
           search-locations:
            file:///${CONFIG_DIR_PATH}
     fail-fast: true
+  security:
+    user:
+      name: spring_cloud_user
+      password: 'Passw0rd'
