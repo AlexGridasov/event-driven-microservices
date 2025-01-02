@@ -1,0 +1,7 @@
+# Fat jar
+FROM openjdk:11-jre-slim-buster
+WORKDIR /app
+ARG JAR_FILE=twitter-to-kafka-service-*.jar
+COPY ./target/${JAR_FILE} ./app.jar
+EXPOSE 8080
+CMD ["java", "-jar", "app.jar"]
