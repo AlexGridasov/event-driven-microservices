@@ -9,4 +9,6 @@ spring:
   security:
     user:
       name: spring_cloud_user
-      password: 'Passw0rd'
+      password: '{cipher}0246ea03aacd01ecd78dba0eb3a8ccfa460b89b1540299479ef0439b22a00f05'
+encrypt:
+  key: ${ENCRYPT_KEY}

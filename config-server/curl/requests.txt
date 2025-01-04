@@ -1,0 +1,7 @@
+curl --location 'localhost:8888/encrypt' \
+--header 'Content-Type: text/plain' \
+--data 'Passw0rd'
+
+curl --location 'localhost:8888/decrypt' \
+--header 'Content-Type: text/plain' \
+--data '0246ea03aacd01ecd78dba0eb3a8ccfa460b89b1540299479ef0439b22a00f05'
