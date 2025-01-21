@@ -42,7 +42,7 @@
                 </configuration>
                 <!--<configuration>
                     <image>
-                        <name>${project.groupId}/config.server:${project.version}</name>
+                        <name>${project.groupId}/config-server:${project.version}</name>
                     </image>
                 </configuration>
                 <executions>

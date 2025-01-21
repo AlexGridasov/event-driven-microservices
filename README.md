@@ -4,12 +4,13 @@
 - Please enter the correct credentials in twitter4j.properties file.
 - Then run `mvn clean install -DskipTests` command
 - Then run TwitterToKafkaServiceApplication inside IntelliJ, or run with mvn spring-boot:run command
-- Then go to docker-compose folder and run docker-compose up command to run kafka cluster, config-server and twitter-to-kafka-service
+- Then go to docker-compose folder and run `docker-compose up` command to run kafka cluster, config-server and twitter-to-kafka-service
 
 To run kafka cluster
 ```
 docker-compose up
 docker-compose -f common.yml -f kafka_cluster.yml up
+docker-compose -f common.yml -f services.yml up
 ```
 
 Check containers

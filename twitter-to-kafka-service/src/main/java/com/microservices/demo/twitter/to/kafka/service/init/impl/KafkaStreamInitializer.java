@@ -17,6 +17,7 @@ public class KafkaStreamInitializer implements StreamInitializer {
     private final KafkaAdminClient kafkaAdminClient;
 
     public KafkaStreamInitializer(KafkaConfigData configData, KafkaAdminClient adminClient) {
+        LOG.info(">>> Kafka config: {}", configData);
         this.kafkaConfigData = configData;
         this.kafkaAdminClient = adminClient;
     }

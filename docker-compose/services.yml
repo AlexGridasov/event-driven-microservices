@@ -1,18 +1,18 @@
-version: '3.7'
 services:
   twitter-to-kafka-service:
-    image: ${GROUP_ID}/twitter.to.kafka.service:${SERVICE_VERSION:-latest}
+    image: ${GROUP_ID}/twitter-to-kafka-service:${SERVICE_VERSION:-latest}
     ports:
+      - "8080:8080"
       - "5005:5005"
     volumes:
-      - "./docker-logs:/workspace/twitter-to-kafka-service/logs"
-      - "./check-config-server-started.sh:/usr/local/bin/check-config-server-started.sh"
-    user: root
-    entrypoint: ["check-config-server-started.sh"]
+      - "./docker-logs:/application/twitter-to-kafka-service/logs"
     depends_on:
-      - config-server
+      config-server:
+        condition: service_healthy
+
     environment:
       - "JAVA_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005 -Xms128m -Xmx256m"
+#      - "JAVA_OPTS=-agentlib:jdwp=transport=dt_socket,server=n,suspend=y,address=*:5005 -Xms128m -Xmx256m"
       - "LOGGING_LEVEL_COM_MICROSERVICES_DEMO=info"
       - "LOGGING_LEVEL_ROOT=info"
       - "KAFKA-CONFIG_TOPIC-NAME=twitter-topic"
@@ -23,14 +23,24 @@ services:
       - "ENCRYPT_KEY=${ENCRYPT_KEY}"
     networks:
       - ${GLOBAL_NETWORK:-services}
+
   config-server:
-    image: ${GROUP_ID}/config.server:${SERVICE_VERSION:-latest}
+    image: ${GROUP_ID}/config-server:${SERVICE_VERSION:-latest}
     ports:
+      - "8888:8888"
       - "5006:5006"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://config-server:8888/actuator/health"]
+      start_period: 15s
+      interval: 10s
+      timeout: 5s
+      retries: 5
     volumes:
-      - "./docker-logs:/workspace/config-server/logs"
+      - "./docker-logs:/application/config-server/logs"
+      - "../config-server-repository:/config-dir"
     environment:
       - "JAVA_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5006 -Xms128m -Xmx256m"
       - "ENCRYPT_KEY=${ENCRYPT_KEY}"
+      - "CONFIG_DIR_PATH=${CONFIG_DIR_PATH}"
     networks:
       - ${GLOBAL_NETWORK:-services}
